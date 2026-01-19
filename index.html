@@ -3,25 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Location Share</title>
+    <title>Locksmith Location Share</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4; }
-        .btn { background-color: #007AFF; color: white; padding: 20px 40px; font-size: 24px; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .btn:hover { background-color: #0051a8; }
-        h1 { color: #333; }
-        p { color: #666; font-size: 18px; }
+        /* עיצוב כללי של הדף */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            background-color: #f0f2f5; 
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* תיבת התוכן המרכזית */
+        .container {
+            background-color: white;
+            padding: 40px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        /* עיצוב הלוגו */
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 { 
+            color: #1c1e21; 
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        p { 
+            color: #606770; 
+            font-size: 16px; 
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        /* עיצוב הכפתור */
+        .btn { 
+            background-color: #007AFF; 
+            color: white; 
+            padding: 18px 30px; 
+            font-size: 20px; 
+            font-weight: bold;
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+            transition: transform 0.2s, background-color 0.2s;
+            width: 100%;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+            background-color: #0051a8;
+        }
     </style>
 </head>
 <body>
-    <h1>Locksmith Service Location</h1>
-    <p>To help us reach you as quickly as possible, please click the button below to share your exact location with us.</p>
-    
-    <button class="btn" onclick="getLocation()">📍 Share Location Now</button>
+
+    <div class="container">
+        <img src="https://i.imgur.com/G20t82B.png" alt="Locksmith Logo" class="logo">
+        
+        <h1>Share Your Location</h1>
+        <p>To provide you with the fastest service, please click the button below to send us your exact coordinates via SMS.</p>
+        
+        <button class="btn" onclick="getLocation()">📍 Share Location Now</button>
+    </div>
 
     <script>
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation);
+                // הגדרה לדיוק מקסימלי
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+                navigator.geolocation.getCurrentPosition(sendLocation, handleError, options);
             } else {
                 alert("Sorry, your browser does not support geolocation.");
             }
@@ -30,11 +97,19 @@
         function sendLocation(position) {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
+
+            // --- כאן מחליפים את פרטי הלקוח כשאתה מוכר את הדף ---
             const phoneNumber = "+13082162327"; 
-            const message = `My exact location: https://www.google.com/maps?q=${lat},${lon}`;
+            const companyName = "Locksmith Service";
+            // --------------------------------------------------
+
+            const message = `Hello ${companyName}, here is my exact location: https://www.google.com/maps?q=${lat},${lon}`;
             
-            // פקודה לפתיחת SMS במקום וואטסאפ
             window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+        }
+
+        function handleError(error) {
+            alert("Please enable location services in your settings so we can find you.");
         }
     </script>
 </body>
