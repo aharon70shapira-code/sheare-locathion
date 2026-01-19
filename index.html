@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Location Share</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f4; }
+        .btn { background-color: #007AFF; color: white; padding: 20px 40px; font-size: 24px; border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .btn:hover { background-color: #0051a8; }
+        h1 { color: #333; }
+        p { color: #666; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Locksmith Service Location</h1>
+    <p>To help us reach you as quickly as possible, please click the button below to share your exact location with us.</p>
+    
+    <button class="btn" onclick="getLocation()">📍 Share Location Now</button>
+
+    <script>
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(sendLocation);
+            } else {
+                alert("Sorry, your browser does not support geolocation.");
+            }
+        }
+
+        function sendLocation(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const phoneNumber = "+13082162327"; 
+            const message = `My exact location: https://www.google.com/maps?q=${lat},${lon}`;
+            
+            // פקודה לפתיחת SMS במקום וואטסאפ
+            window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+        }
+    </script>
+</body>
+</html>
