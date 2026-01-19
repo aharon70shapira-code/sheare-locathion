@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Service Dispatch | Location Verification</title>
+    <title>Service Dispatch | Verification</title>
     <style>
         body {
             margin: 0;
@@ -25,25 +25,35 @@
         }
 
         .logo-svg {
-            width: 140px;
-            height: 140px;
-            margin-bottom: 20px;
+            width: 130px;
+            height: 130px;
+            margin-bottom: 25px;
             filter: drop-shadow(0 0 15px #00d2ff);
         }
 
         h1 {
-            font-size: 24px;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
+            font-size: 22px;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
             text-transform: uppercase;
             background: linear-gradient(to right, #fff, #00d2ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
+        .client-name {
+            font-size: 14px;
+            color: #3a7bd5;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+        }
+
         p {
             color: #94a3b8;
-            font-size: 16px;
+            font-size: 15px;
             line-height: 1.6;
             margin-bottom: 40px;
         }
@@ -52,23 +62,24 @@
             background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
             color: white;
             border: none;
-            padding: 20px;
+            padding: 22px;
             width: 100%;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             text-transform: uppercase;
+            transition: all 0.2s;
         }
 
-        .btn:active { transform: scale(0.97); }
+        .btn:active { transform: scale(0.96); opacity: 0.9; }
 
-        .dot {
+        .status-dot {
             width: 8px;
             height: 8px;
             background-color: white;
@@ -77,9 +88,9 @@
         }
 
         @keyframes pulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 1; }
-            100% { opacity: 0.4; }
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.3; transform: scale(1); }
         }
     </style>
 </head>
@@ -87,32 +98,56 @@
 
     <div class="container">
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="85" fill="none" stroke="#00d2ff" stroke-width="2" stroke-dasharray="8 4" />
-            <path d="M100 40 C75 40 55 60 55 85 C55 120 100 160 100 160 C100 160 145 120 145 85 C145 60 125 40 100 40 Z" fill="#1e293b" stroke="#00d2ff" stroke-width="4"/>
-            <circle cx="100" cy="85" r="15" fill="none" stroke="#00d2ff" stroke-width="3" />
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#00d2ff" stroke-width="1" stroke-dasharray="10 5" />
+            <path d="M100 45 C80 45 65 60 65 85 C65 115 100 155 100 155 C100 155 135 115 135 85 C135 60 120 45 100 45 Z" fill="#1e293b" stroke="#00d2ff" stroke-width="3"/>
+            <circle cx="100" cy="85" r="12" fill="#00d2ff" />
         </svg>
 
-        <h1>Dispatch Point</h1>
-        <p>Please confirm your location to assign the nearest available technician to your area for immediate assistance.</p>
+        <h1 id="ui-title">Dispatch Point</h1>
+        <span class="client-name" id="ui-client-name">Loading...</span>
+        
+        <p id="ui-description">Initializing secure location transmission for technician assignment...</p>
 
-        <button class="btn" onclick="share()">
-            <div class="dot"></div>
-            Confirm Location
+        <button class="btn" onclick="executeDispatch()">
+            <div class="status-dot"></div>
+            Confirm My Location
         </button>
     </div>
 
     <script>
-        function share() {
+        /* ==========================================
+           SETTINGS - כאן אתה משנה הכל בשניות
+           ========================================== */
+        const CONFIG = {
+            companyName: "Futuristic Locksmith", // שם החברה שמופיע בדף
+            targetPhone: "+13082162327",       // המספר שיקבל את ה-SMS
+            displayTitle: "Dispatch System",    // כותרת עליונה
+            smsPrefix: "DISPATCH REQUEST"      // תחילת הודעת ה-SMS
+        };
+
+        // עדכון ממשק המשתמש לפי ההגדרות למעלה
+        document.getElementById('ui-client-name').innerText = CONFIG.companyName;
+        document.getElementById('ui-title').innerText = CONFIG.displayTitle;
+        document.getElementById('ui-description').innerText = `Confirm your current location to connect with ${CONFIG.companyName} nearest technician.`;
+
+        function executeDispatch() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((pos) => {
                     const lat = pos.coords.latitude;
                     const lon = pos.coords.longitude;
-                    const phoneNumber = "+13082162327"; 
-                    const msg = `SERVICE REQUEST: Technician assignment required. Client Location: http://maps.google.com/?q=${lat},${lon}`;
-                    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(msg)}`;
-                }, () => {
-                    alert("Location access is required for dispatching. Please check your settings.");
-                }, { enableHighAccuracy: true });
+                    
+                    const mapsUrl = `https://www.google.com/maps?q=${lat},${lon}`;
+                    const fullMessage = `${CONFIG.smsPrefix}: New client location for ${CONFIG.companyName}. View on map: ${mapsUrl}`;
+                    
+                    window.location.href = `sms:${CONFIG.targetPhone}?body=${encodeURIComponent(fullMessage)}`;
+                }, (err) => {
+                    alert("Verification Failed: Please enable Location Access in your browser settings to proceed.");
+                }, { 
+                    enableHighAccuracy: true,
+                    timeout: 8000
+                });
+            } else {
+                alert("Security Error: This browser does not support location verification.");
             }
         }
     </script>
