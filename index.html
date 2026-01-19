@@ -3,106 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Locksmith Premium Service</title>
+    <title>Service Dispatch | Location Verification</title>
     <style>
-        :root {
-            --primary-blue: #00d2ff;
-            --dark-bg: #0f172a;
-            --card-bg: #1e293b;
-        }
-
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--dark-bg);
+            background-color: #0f172a;
             color: white;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            overflow: hidden;
-        }
-
-        /* רקע עדין של רשת טכנולוגית */
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 30px 30px;
-            z-index: -1;
+            text-align: center;
         }
 
         .container {
-            text-align: center;
-            padding: 30px;
-            width: 100%;
-            max-width: 380px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
         }
 
-        /* לוגו SVG מוטמע - לא יעלם לעולם */
         .logo-svg {
             width: 140px;
             height: 140px;
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 15px var(--primary-blue));
+            filter: drop-shadow(0 0 15px #00d2ff);
         }
 
         h1 {
-            font-size: 26px;
-            font-weight: 700;
-            margin: 10px 0;
-            background: linear-gradient(to right, #fff, var(--primary-blue));
+            font-size: 24px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #00d2ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         p {
-            font-size: 16px;
             color: #94a3b8;
+            font-size: 16px;
             line-height: 1.6;
             margin-bottom: 40px;
         }
 
-        .action-btn {
+        .btn {
             background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
             color: white;
             border: none;
             padding: 20px;
             width: 100%;
-            border-radius: 16px;
+            border-radius: 12px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 210, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .action-btn:active {
-            transform: scale(0.96);
-            filter: brightness(1.1);
-        }
+        .btn:active { transform: scale(0.97); }
 
-        .pulse {
-            width: 12px;
-            height: 12px;
-            background-color: #fff;
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: white;
             border-radius: 50%;
-            box-shadow: 0 0 10px #fff;
-            animation: blink 1.5s infinite;
+            animation: pulse 1.5s infinite;
         }
 
-        @keyframes blink {
-            0% { opacity: 0.3; }
+        @keyframes pulse {
+            0% { opacity: 0.4; }
             50% { opacity: 1; }
-            100% { opacity: 0.3; }
+            100% { opacity: 0.4; }
         }
     </style>
 </head>
@@ -110,37 +87,32 @@
 
     <div class="container">
         <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="100" cy="100" r="90" fill="none" stroke="#00d2ff" stroke-width="2" stroke-dasharray="10 5" />
-            <path d="M100 30 C70 30 50 55 50 85 C50 125 100 170 100 170 C100 170 150 125 150 85 C150 55 130 30 100 30 Z" fill="#1e293b" stroke="#00d2ff" stroke-width="4"/>
-            <circle cx="100" cy="85" r="20" fill="none" stroke="#00d2ff" stroke-width="3"/>
-            <rect x="95" y="85" width="10" height="25" rx="5" fill="#00d2ff" />
+            <circle cx="100" cy="100" r="85" fill="none" stroke="#00d2ff" stroke-width="2" stroke-dasharray="8 4" />
+            <path d="M100 40 C75 40 55 60 55 85 C55 120 100 160 100 160 C100 160 145 120 145 85 C145 60 125 40 100 40 Z" fill="#1e293b" stroke="#00d2ff" stroke-width="4"/>
+            <circle cx="100" cy="85" r="15" fill="none" stroke="#00d2ff" stroke-width="3" />
         </svg>
 
-        <h1>FUTURISTIC LOCKSMITH</h1>
-        <p>Locked out? Need a pro? <br> Tap below to send us your exact location for immediate assistance.</p>
+        <h1>Dispatch Point</h1>
+        <p>Please confirm your location to assign the nearest available technician to your area for immediate assistance.</p>
 
-        <button class="action-btn" onclick="shareLocation()">
-            <div class="pulse"></div>
-            SHARE LOCATION NOW
+        <button class="btn" onclick="share()">
+            <div class="dot"></div>
+            Confirm Location
         </button>
     </div>
 
     <script>
-        function shareLocation() {
+        function share() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const lat = position.coords.latitude;
-                    const lon = position.coords.longitude;
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
                     const phoneNumber = "+13082162327"; 
-                    const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
-                    const message = `I need a locksmith! My location: ${mapLink}`;
-                    
-                    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
-                }, (err) => {
-                    alert("Please enable location access to help us find you.");
+                    const msg = `SERVICE REQUEST: Technician assignment required. Client Location: http://maps.google.com/?q=${lat},${lon}`;
+                    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(msg)}`;
+                }, () => {
+                    alert("Location access is required for dispatching. Please check your settings.");
                 }, { enableHighAccuracy: true });
-            } else {
-                alert("Browser not supported.");
             }
         }
     </script>
