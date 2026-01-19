@@ -2,122 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futuristic Locksmith Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Locksmith Premium Service</title>
     <style>
-        /* עיצוב הרקע הכהה מהתמונה */
+        :root {
+            --primary-blue: #00d2ff;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+        }
+
         body {
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #1a232e; /* צבע כהה עמוק כמו בתמונה */
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--dark-bg);
             color: white;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* רקע עדין של רשת טכנולוגית */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 30px 30px;
+            z-index: -1;
+        }
+
+        .container {
             text-align: center;
+            padding: 30px;
+            width: 100%;
+            max-width: 380px;
         }
 
-        .card {
-            padding: 40px 20px;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        /* הלוגו העתידני */
-        .logo-container {
-            margin-bottom: 30px;
-        }
-        
-        .logo-img {
-            width: 180px; /* גודל הלוגו מהתמונה */
-            filter: drop-shadow(0 0 15px #40E0D0); /* אפקט זוהר כחול */
+        /* לוגו SVG מוטמע - לא יעלם לעולם */
+        .logo-svg {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px var(--primary-blue));
         }
 
         h1 {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            color: #ffffff;
+            font-size: 26px;
+            font-weight: 700;
+            margin: 10px 0;
+            background: linear-gradient(to right, #fff, var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
             font-size: 16px;
-            color: #a0aec0; /* טקסט אפרפר עדין */
+            color: #94a3b8;
             line-height: 1.6;
             margin-bottom: 40px;
         }
 
-        /* הכפתור המעוצב מהתמונה */
-        .btn {
-            background: linear-gradient(135deg, #00b4db, #0083b0); /* גרדיאנט כחול */
+        .action-btn {
+            background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%);
             color: white;
-            padding: 18px 35px;
+            border: none;
+            padding: 20px;
+            width: 100%;
+            border-radius: 16px;
             font-size: 18px;
             font-weight: bold;
-            border: none;
-            border-radius: 12px;
             cursor: pointer;
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            width: 100%;
-            box-shadow: 0 10px 20px rgba(0, 180, 219, 0.3);
             transition: all 0.3s ease;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-            box-shadow: 0 5px 10px rgba(0, 180, 219, 0.2);
+        .action-btn:active {
+            transform: scale(0.96);
+            filter: brightness(1.1);
         }
 
-        .btn-icon {
-            font-size: 22px;
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <div class="logo-container">
-            <img src="https://i.imgur.com/vHqLp07.png" alt="Futuristic Logo" class="logo-img">
-        </div>
+    <div class="container">
+        <svg class="logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#00d2ff" stroke-width="2" stroke-dasharray="10 5" />
+            <path d="M100 30 C70 30 50 55 50 85 C50 125 100 170 100 170 C100 170 150 125 150 85 C150 55 130 30 100 30 Z" fill="#1e293b" stroke="#00d2ff" stroke-width="4"/>
+            <circle cx="100" cy="85" r="20" fill="none" stroke="#00d2ff" stroke-width="3"/>
+            <rect x="95" y="85" width="10" height="25" rx="5" fill="#00d2ff" />
+        </svg>
 
-        <h1>Locksmith Service Location</h1>
-        <p>To help us reach you as quickly as possible, please click the button below to share your exact location with us.</p>
+        <h1>FUTURISTIC LOCKSMITH</h1>
+        <p>Locked out? Need a pro? <br> Tap below to send us your exact location for immediate assistance.</p>
 
-        <button class="btn" onclick="getLocation()">
-            <span class="btn-icon">📍</span> Share Location Now
+        <button class="action-btn" onclick="shareLocation()">
+            <div class="pulse"></div>
+            SHARE LOCATION NOW
         </button>
     </div>
 
     <script>
-        function getLocation() {
+        function shareLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(sendLocation, showError, {
-                    enableHighAccuracy: true,
-                    timeout: 10000
-                });
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    const phoneNumber = "+13082162327"; 
+                    const mapLink = `https://www.google.com/maps?q=${lat},${lon}`;
+                    const message = `I need a locksmith! My location: ${mapLink}`;
+                    
+                    window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
+                }, (err) => {
+                    alert("Please enable location access to help us find you.");
+                }, { enableHighAccuracy: true });
             } else {
-                alert("Geolocation is not supported by this browser.");
+                alert("Browser not supported.");
             }
-        }
-
-        function sendLocation(position) {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            const phoneNumber = "+13082162327"; // המספר שלך
-            
-            const message = `My exact location for locksmith service: https://www.google.com/maps?q=${lat},${lon}`;
-            
-            window.location.href = `sms:${phoneNumber}?body=${encodeURIComponent(message)}`;
-        }
-
-        function showError(error) {
-            alert("Please allow location access to continue.");
         }
     </script>
 </body>
